@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goldex - Men's Haircut World</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #121312; /* Very dark background */
+            --bg-panel: #242721; /* Dark olive/greenish panel background */
+            --accent-color: #e5f059; /* The yellow/lime accent */
+            --text-light: #f5f5f5;
+            --text-muted: #a4a4a4;
+            --font-heading: 'Oswald', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Star Burst Decoration */
+        .star-burst {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23e5f059"><path d="M50 0 L55 40 L95 45 L55 50 L50 90 L45 50 L5 45 L45 40 Z"/></svg>') no-repeat center center;
+            background-size: contain;
+            animation: spin 20s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Button */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #000;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            padding: 12px 24px;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background-color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(229, 240, 89, 0.2);
+        }
+
+        /* Layout Container */
+        .wrapper {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 400px; /* Main content vs Right Sidebar */
+            gap: 40px;
+        }
+
+        /* Left Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Panel Box Styling */
+        .panel {
+            background-color: var(--bg-panel);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Navbar inside the main panel */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span {
+            color: var(--accent-color);
+            font-size: 32px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 40px;
+            gap: 40px;
+            position: relative;
+        }
+
+        .hero-img-container {
+            position: relative;
+            padding: 15px;
+        }
+
+        /* The yellow offset border */
+        .hero-img-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 15px;
+            bottom: 15px;
+            border: 3px solid var(--accent-color);
+            z-index: 1;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            transform: translate(15px, 15px);
+            filter: grayscale(100%) contrast(120%);
+            transition: filter 0.5s ease;
+        }
+        
+        .hero-img:hover {
+            filter: grayscale(0%) contrast(100%);
+        }
+
+        .hero-star {
+            bottom: 0;
+            right: -20px;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 20px;
+        }
+
+        .hero-title-large {
+            font-size: clamp(4rem, 8vw, 7rem);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .hero-title-sub {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 20px;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .discount-badge {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .hero-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 400px;
+        }
+
+        .hero-gallery {
+            display: flex;
+            gap: 10px;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .hero-gallery img {
+            width: calc(25% - 7.5px);
+            height: 100px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .hero-gallery img:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        /* Stats / Features Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 40px;
+            border-top: 1px solid var(--border-color);
+            gap: 30px;
+        }
+
+        .stat-item {
+            position: relative;
+        }
+
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 10%;
+            height: 80%;
+            width: 1px;
+            background-color: var(--border-color);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .stat-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .stat-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Secondary Hero Style Panel */
+        .secondary-hero {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .secondary-hero .hero-img-container::before {
+            border-color: #5bc0be; /* different color accent for second block based on reference */
+        }
+        
+        .secondary-hero .hero-star {
+            display: none;
+        }
+
+        /* Right Sidebar Content */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Sidebar Top Widget */
+        .sidebar-widget {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+        }
+
+        .widget-img-container {
+            position: relative;
+            padding: 10px;
+        }
+
+        .widget-img-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid var(--accent-color);
+            z-index: 1;
+        }
+
+        .widget-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            position: relative;
+            z-index: 2;
+            transform: translate(10px, 10px);
+        }
+        
+        .widget-star {
+            bottom: -10px;
+            right: -10px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .widget-title {
+            font-size: 32px;
+            margin-top: 20px;
+        }
+
+        .widget-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Virtual Hairstyles Widget */
+        .virtual-widget {
+            background-color: var(--bg-panel);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .virtual-inner {
+            border: 2px solid var(--accent-color);
+            padding: 30px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .virtual-title {
+            font-size: 36px;
+            text-transform: none; /* Reference has it normal case */
+            font-family: var(--font-body);
+            font-weight: 500;
+            line-height: 1.1;
+        }
+
+        .virtual-heads {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .head-img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border: 1px solid var(--accent-color);
+            filter: grayscale(100%);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 40px;
+            background-color: var(--bg-dark); /* darker bg for FAQ */
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+        }
+
+        .faq-title-area h2 {
+            font-size: 42px;
+            text-transform: none;
+            font-family: var(--font-body);
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .faq-title-area p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .accordion {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+
+        .accordion-header i {
+            color: var(--text-muted);
+            transition: transform 0.3s;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            font-size: 13px;
+            color: var(--text-muted);
+            padding-top: 0;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 200px;
+            padding-top: 15px;
+        }
+        
+        .accordion-item.active .accordion-header i {
+            transform: rotate(180deg);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .wrapper {
+                grid-template-columns: 1fr;
+            }
+            .faq-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero, .secondary-hero {
+                grid-template-columns: 1fr;
+            }
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+            .stat-item:not(:last-child)::after {
+                display: none;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        
+        <!-- MAIN LEFT CONTENT -->
+        <main class="main-content">
+            
+            <!-- Main Panel containing Nav, Hero, Stats -->
+            <div class="panel">
+                
+                <!-- Navbar -->
+                <nav class="navbar">
+                    <div class="logo">
+                        Goldex <span><i class="fa-solid fa-chair"></i></span>
+                    </div>
+                    <ul class="nav-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Hero Section -->
+                <section class="hero">
+                    <div class="hero-img-container">
+                        <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=1000&auto=format&fit=crop" alt="Men's Haircut Model" class="hero-img">
+                        <div class="star-burst hero-star"></div>
+                    </div>
+                    
+                    <div class="hero-content">
+                        <h1 class="hero-title-large">GOLDEX</h1>
+                        <h2 class="hero-title-sub">MENS' HAIRCUT<br>WORLD</h2>
+                        <div class="discount-badge">25% off</div>
+                        <p class="hero-desc">Dua tahun terakhir telah membuktikan menjadi periode waktu yang sangat unik bagi semua orang. Sebagian besar hidup kita - dari tempat kita bekerja dan bagaimana kita berlibur hingga siapa yang dapat kita temui.</p>
+                        <button class="btn">BOOK NOW</button>
+
+                        <div class="hero-gallery">
+                            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=400&auto=format&fit=crop" alt="Barber shop">
+                            <img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?q=80&w=400&auto=format&fit=crop" alt="Haircut">
+                            <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=400&auto=format&fit=crop" alt="Trimming">
+                            <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?q=80&w=400&auto=format&fit=crop" alt="Tools">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stats Section -->
+                <section class="stats-row">
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fa-solid fa-scissors"></i></div>
+                        <h3 class="stat-title">100+ haircuts</h3>
+                        <p class="stat-desc">Dua tahun terakhir telah membuktikan menjadi periode waktu yang sangat unik bagi semua orang. Banyak hal telah berubah.</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fa-solid fa-wind"></i></div>
+                        <h3 class="stat-title">100+ haircuts</h3>
+                        <p class="stat-desc">Sebagian besar hidup kita - dari tempat kita bekerja dan bagaimana kita berlibur hingga siapa yang dapat kita temui.</p>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fa-solid fa-cut"></i></div>
+                        <h3 class="stat-title">100+ haircuts</h3>
+                        <p class="stat-desc">Periode waktu yang unik untuk semua orang. Sebagian besar hidup kita - dari tempat kita bekerja.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Second Panel (Mirroring the top layout slightly) -->
+            <div class="panel">
+                <section class="secondary-hero">
+                    <div class="hero-img-container">
+                        <!-- Blue-ish border requested visually for variety based on second block in ref -->
+                        <img src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?q=80&w=1000&auto=format&fit=crop" alt="Men's Haircut Model 2" class="hero-img" style="filter: none;">
+                    </div>
+                    <div class="hero-content">
+                        <h2 class="hero-title-sub">MENS' HAIRCUT<br>WORLD</h2>
+                        <p class="hero-desc">Dua tahun terakhir telah membuktikan menjadi periode waktu yang sangat unik bagi semua orang. Sebagian besar hidup kita - dari tempat kita bekerja dan bagaimana kita berlibur hingga siapa yang dapat kita temui.</p>
+                        <button class="btn" style="background-color: #5bc0be; color: #000;">READ MORE</button>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="sidebar">
+            
+            <!-- Widget 1: Info -->
+            <div class="sidebar-widget">
+                <div class="widget-img-container">
+                    <img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?q=80&w=400&auto=format&fit=crop" alt="Stylist" class="widget-img" style="filter: none;">
+                    <div class="star-burst widget-star"></div>
+                </div>
+                <h3 class="widget-title">MENS' HAIRCUT<br>WORLD</h3>
+                <p class="widget-desc">Dua tahun terakhir telah membuktikan menjadi periode waktu yang sangat unik bagi semua orang. Sebagian besar hidup kita - dari tempat kita bekerja dan bagaimana kita berlibur.</p>
+                <button class="btn" style="align-self: flex-start; padding: 10px 20px; font-size: 12px;">SHOP NOW</button>
+            </div>
+
+            <!-- Widget 2: Virtual Hairstyles -->
+            <div class="virtual-widget">
+                <div class="virtual-inner">
+                    <h3 class="virtual-title">Try On the<br>Most<br>Realistic<br>Virtual<br>Hairstyles</h3>
+                    <button class="btn" style="align-self: flex-start; background-color: #1a1a1a; color: #fff; border: 1px solid var(--border-color);">BOOK NOW</button>
+                    
+                    <div class="virtual-heads">
+                        <img src="https://images.unsplash.com/photo-1580684406882-4d879f8eb744?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Head 1" class="head-img" style="filter: none;">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop" alt="Head 2" class="head-img">
+                        <img src="https://images.unsplash.com/photo-1542596594-649edbc13630?q=80&w=200&auto=format&fit=crop" alt="Head 3" class="head-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Widget -->
+            <div class="faq-section">
+                <div class="faq-title-area">
+                    <h2>Queries About<br>Our Products</h2>
+                    <p>Temukan Kualitas Produk & Kurangi Biaya Dengan Sumber Langsung Dari Pabrik. Jumlah Pesanan Minimum Rendah. Tersedia OEM/ODM.</p>
+                </div>
+                
+                <div class="accordion">
+                    <!-- Item 1 -->
+                    <div class="accordion-item active">
+                        <div class="accordion-header">
+                            <span>Purchasing</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <strong style="display: block; margin-bottom: 10px; color: #fff;">What Is The Safest Way To Get The Products Boy?</strong>
+                            Temukan Kualitas Produk & Kurangi Biaya Dengan Sumber Langsung Dari Pabrik. Jumlah Pesanan Minimum Rendah. Tersedia OEM/ODM. Sumber Langsung Dari Pabrik. Temukan Kualitas Produk & Kurangi Biaya Dengan Sumber Langsung Dari Pabrik. Jumlah Pesanan Minimum Rendah.
+                        </div>
+                    </div>
+                    
+                    <!-- Item 2 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Sales</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <strong style="display: block; margin-bottom: 10px; color: #fff;">What Is The Safest Way To Get The Products Boy?</strong>
+                            Kami menjamin kualitas penjualan dengan tim yang siap melayani 24/7 untuk kebutuhan bisnis salon Anda.
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Home Delivery</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <strong style="display: block; margin-bottom: 10px; color: #fff;">What Is The Safest Way To Get The Products Boy?</strong>
+                            Pengiriman langsung ke alamat Anda dengan garansi keamanan dan keutuhan produk sampai di tujuan.
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="accordion-item">
+                        <div class="accordion-header">
+                            <span>Set Up</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="accordion-content">
+                            <strong style="display: block; margin-bottom: 10px; color: #fff;">What Is The Safest Way To Get The Products Boy?</strong>
+                            Tim profesional kami akan membantu pengaturan produk dan peralatan di salon Anda secara menyeluruh.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+    </div>
+
+    <!-- Script for Accordion & Interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const item = this.parentElement;
+                    
+                    // Close all other active items
+                    document.querySelectorAll('.accordion-item.active').forEach(activeItem => {
+                        if (activeItem !== item) {
+                            activeItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

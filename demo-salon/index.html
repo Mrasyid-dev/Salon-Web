@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maison Belle — Premium Salon & Spa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* CSS RESET */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+:root {
+  --bg-color: #F7F5F0;      /* Warm off-white / Linen */
+  --bg-alt: #EFECE4;        /* Slightly darker linen */
+  --text-main: #2C2A28;     /* Warm charcoal */
+  --text-light: #5A5753;    /* Muted text */
+  --accent: #8E8675;        /* Muted warm taupe/olive */
+  --accent-light: #D4CEBf; 
+  --white: #FFFFFF;
+  --black: #1A1816;
+  
+  --serif: 'Cormorant Garamond', serif;
+  --sans: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* TYPOGRAPHY */
+h1, h2, h3, h4, .serif { font-family: var(--serif); font-weight: 400; }
+em { font-style: italic; color: var(--accent); }
+
+/* NAV */
+.nav-wrapper {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.25rem 2rem;
+  transition: background 0.3s, padding 0.3s;
+}
+.nav-wrapper.scrolled {
+  background: rgba(247, 245, 240, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(44, 42, 40, 0.05);
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.brand {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 500;
+  z-index: 102; /* above mobile menu */
+  position: relative;
+}
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-main);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* MOBILE MENU BTN */
+.menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 102;
+  position: relative;
+  width: 24px;
+  height: 20px;
+}
+.menu-btn span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--text-main);
+  position: absolute;
+  transition: 0.3s;
+}
+.menu-btn span:nth-child(1) { top: 0; }
+.menu-btn span:nth-child(2) { top: 9px; }
+.menu-btn span:nth-child(3) { top: 18px; }
+.menu-btn.active span:nth-child(1) { transform: rotate(45deg); top: 9px; }
+.menu-btn.active span:nth-child(2) { opacity: 0; }
+.menu-btn.active span:nth-child(3) { transform: rotate(-45deg); top: 9px; }
+
+/* MOBILE MENU OVERLAY */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-color);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+.mobile-menu.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.mobile-menu a {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  color: var(--text-main);
+  text-decoration: none;
+  font-style: italic;
+  transform: translateY(20px);
+  opacity: 0;
+  transition: 0.4s ease;
+}
+.mobile-menu.active a {
+  transform: translateY(0);
+  opacity: 1;
+}
+.mobile-menu a:nth-child(1) { transition-delay: 0.1s; }
+.mobile-menu a:nth-child(2) { transition-delay: 0.2s; }
+.mobile-menu a:nth-child(3) { transition-delay: 0.3s; }
+.mobile-menu a:nth-child(4) { transition-delay: 0.4s; }
+
+/* HERO */
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  background-image: url('assets/hero.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(247, 245, 240, 0.9) 0%, rgba(247, 245, 240, 0.4) 100%);
+}
+.hero-content {
+  position: relative;
+  max-width: 600px;
+  z-index: 2;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+@media(min-width: 768px) {
+  .hero-content { margin-left: 10%; text-align: left; }
+  .hero::before { background: linear-gradient(to right, rgba(247, 245, 240, 0.95) 0%, rgba(247, 245, 240, 0.2) 100%); }
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: block;
+}
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 5.5rem);
+  line-height: 1.1;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+}
+.hero p {
+  font-size: 1rem;
+  color: var(--text-light);
+  max-width: 400px;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media(min-width: 768px) { .hero p { margin-left: 0; margin-right: 0; } }
+
+.btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: all 0.3s;
+  border: 1px solid var(--text-main);
+}
+.btn-primary {
+  background: var(--text-main);
+  color: var(--white);
+}
+.btn-primary:hover {
+  background: transparent;
+  color: var(--text-main);
+}
+
+/* MARQUEE */
+.marquee {
+  background: var(--text-main);
+  color: var(--white);
+  padding: 1rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.marquee-inner {
+  display: inline-block;
+  animation: scroll 20s linear infinite;
+}
+.marquee span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-right: 3rem;
+}
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* SECTIONS COMMON */
+.section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-title { font-size: clamp(2.5rem, 5vw, 3.5rem); color: var(--black); line-height: 1.2; }
+
+/* SERVICES */
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media(min-width: 768px) { .services-grid { grid-template-columns: 1fr 1fr; gap: 3rem; } }
+
+.service-card {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(44, 42, 40, 0.1);
+}
+.service-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5rem; }
+.service-name { font-family: var(--serif); font-size: 1.5rem; }
+.service-price { font-family: var(--serif); font-size: 1.25rem; color: var(--accent); }
+.service-desc { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem; }
+.service-time { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+
+/* TEAM */
+.team-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media(min-width: 600px) { .team-grid { grid-template-columns: 1fr 1fr; } }
+@media(min-width: 900px) { .team-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.team-card { text-align: center; }
+.team-img-wrap {
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background: var(--bg-alt);
+}
+.team-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s;
+}
+.team-card:hover .team-img-wrap img { transform: scale(1.05); }
+.team-name { font-family: var(--serif); font-size: 1.3rem; margin-bottom: 0.25rem; }
+.team-role { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); }
+
+/* GALLERY */
+.gallery { background: var(--bg-alt); max-width: 100%; }
+.gallery-inner { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media(min-width: 768px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .g-col { display: flex; flex-direction: column; gap: 1rem; }
+}
+.gallery-img { width: 100%; object-fit: cover; background: var(--bg-color); }
+.g-tall { aspect-ratio: 3/4; }
+.g-wide { aspect-ratio: 4/3; }
+
+/* HOURS & LOCATION */
+.info-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4rem;
+}
+@media(min-width: 768px) { .info-section { grid-template-columns: 1fr 1fr; } }
+
+.info-box {
+  background: var(--white);
+  padding: 3rem;
+  border: 1px solid rgba(44, 42, 40, 0.05);
+}
+.info-title { font-family: var(--serif); font-size: 2rem; margin-bottom: 2rem; }
+.hours-row { display: flex; justify-content: space-between; border-bottom: 1px solid var(--bg-alt); padding: 1rem 0; font-size: 0.9rem; }
+.hours-row:last-child { border-bottom: none; }
+.hours-day { color: var(--text-main); }
+.hours-time { color: var(--text-light); }
+
+.map-placeholder {
+  width: 100%; height: 250px; background: var(--bg-alt);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.8rem;
+  margin-bottom: 2rem; border: 1px solid rgba(44,42,40,0.1); cursor: pointer; transition: 0.3s;
+}
+.map-placeholder:hover { border-color: var(--accent); }
+
+/* BOOKING CTA */
+.booking-cta { text-align: center; padding: 6rem 2rem; background: var(--black); color: var(--white); }
+.booking-cta h2 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem; color: var(--white); }
+.booking-cta p { color: rgba(255,255,255,0.7); margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+.btn-white { border-color: var(--white); color: var(--black); background: var(--white); }
+.btn-white:hover { background: transparent; color: var(--white); }
+
+/* FOOTER */
+footer { padding: 4rem 2rem; text-align: center; border-top: 1px solid rgba(44, 42, 40, 0.1); }
+.footer-logo { font-family: var(--serif); font-size: 1.5rem; font-style: italic; margin-bottom: 1rem; }
+.footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; }
+.footer-links a { color: var(--text-light); text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.2s; }
+.footer-links a:hover { color: var(--accent); }
+.copyright { font-size: 0.8rem; color: var(--text-light); }
+
+/* FLOATING WA BUTTON */
+.fab-wa {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #25D366;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  z-index: 900;
+  transition: transform 0.3s;
+  animation: pulse-wa 2s infinite;
+}
+.fab-wa:hover { transform: scale(1.05); animation: none; }
+.fab-wa svg { width: 32px; height: 32px; fill: currentColor; }
+
+@keyframes pulse-wa {
+  0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+  70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+/* ANIMATIONS (SCROLL REVEAL) */
+.reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* RESPONSIVE NAV */
+@media(max-width: 767px) {
+  .nav-links { display: none; }
+  .menu-btn { display: block; }
+  .fab-wa { bottom: 1.5rem; right: 1.5rem; width: 50px; height: 50px; }
+  .fab-wa svg { width: 26px; height: 26px; }
+}
+</style>
+</head>
+<body>
+
+<!-- DEMO BANNER -->
+<div style="background: var(--text-main); color: var(--white); text-align: center; padding: 0.5rem; font-size: 0.75rem; letter-spacing: 0.05em; z-index: 9999; position: relative;">
+  <strong>Demo Website</strong> — Dibuat oleh rasyid-hidayat.cloud
+</div>
+
+<!-- FLOATING WA -->
+<a href="https://wa.me/6281200000000?text=Halo%20Maison%20Belle%2C%20saya%20ingin%20reservasi" class="fab-wa" target="_blank" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- NAV -->
+<header class="nav-wrapper" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand">Maison Belle.</a>
+    <ul class="nav-links">
+      <li><a href="#services">Layanan</a></li>
+      <li><a href="#team">Tim Kami</a></li>
+      <li><a href="#gallery">Galeri</a></li>
+      <li><a href="#info">Info</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" class="nav-item-mobile">Layanan</a>
+  <a href="#team" class="nav-item-mobile">Tim Kami</a>
+  <a href="#gallery" class="nav-item-mobile">Galeri</a>
+  <a href="#info" class="nav-item-mobile">Lokasi & Jam</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content reveal">
+    <span class="eyebrow">Temanggung Beauty & Spa</span>
+    <h1>Kecantikan yang<br><em>natural</em> & elegan.</h1>
+    <p>Kami percaya kecantikan sejati lahir dari sentuhan yang tepat, produk berkualitas, dan dedikasi. Rasakan pengalaman premium di setiap layanannya.</p>
+    <a href="#services" class="btn btn-primary">Eksplorasi Layanan</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-inner">
+    <span>✨ Hair Styling</span><span>✨ Premium Coloring</span><span>✨ Smoothing & Keratin</span><span>✨ Spa & Relaxation</span><span>✨ Nail Art</span><span>✨ Makeup & Hairdo</span><span>✨ Hair Styling</span><span>✨ Premium Coloring</span><span>✨ Smoothing & Keratin</span><span>✨ Spa & Relaxation</span><span>✨ Nail Art</span><span>✨ Makeup & Hairdo</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="section-header reveal">
+    <span class="eyebrow">Layanan Signature</span>
+    <h2 class="section-title">Disentuh dengan<br><em>keahlian</em> dan hati.</h2>
+  </div>
+  
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-header">
+        <h3 class="service-name">Haircut & Styling</h3>
+        <span class="service-price">Rp 85k</span>
+      </div>
+      <p class="service-desc">Konsultasi mendalam, potongan presisi, pencucian premium, dan styling akhir.</p>
+      <span class="service-time">60 Menit</span>
+    </div>
+    
+    <div class="service-card reveal">
+      <div class="service-header">
+        <h3 class="service-name">Premium Coloring</h3>
+        <span class="service-price">Mulai Rp 200k</span>
+      </div>
+      <p class="service-desc">Pewarnaan tanpa merusak rambut dengan produk kelas dunia dan teknik modern.</p>
+      <span class="service-time">120+ Menit</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-header">
+        <h3 class="service-name">Keratin Smoothing</h3>
+        <span class="service-price">Mulai Rp 350k</span>
+      </div>
+      <p class="service-desc">Rambut lurus alami, berkilau, dan sehat berkat nutrisi keratin intensif.</p>
+      <span class="service-time">180 Menit</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-header">
+        <h3 class="service-name">Organic Spa Manicure</h3>
+        <span class="service-price">Mulai Rp 65k</span>
+      </div>
+      <p class="service-desc">Perawatan kuku lengkap dengan scrub organik, pijatan ringan, dan gel polish.</p>
+      <span class="service-time">60 Menit</span>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section" id="team">
+  <div class="section-header reveal">
+    <span class="eyebrow">Tim Ahli</span>
+    <h2 class="section-title">Mereka yang akan<br><em>memanjakan</em> Anda.</h2>
+  </div>
+  
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <div class="team-img-wrap">
+        <img src="assets/team1.png" alt="Sari Dewi">
+      </div>
+      <h3 class="team-name">Sari Dewi</h3>
+      <span class="team-role">Art Director</span>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-img-wrap">
+        <img src="assets/team1.png" alt="Rina Kusuma" style="filter: hue-rotate(15deg) brightness(0.9);">
+      </div>
+      <h3 class="team-name">Rina Kusuma</h3>
+      <span class="team-role">Senior Stylist</span>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-img-wrap">
+        <img src="assets/team1.png" alt="Tari Ayu" style="filter: sepia(0.2) contrast(1.1);">
+      </div>
+      <h3 class="team-name">Tari Ayu</h3>
+      <span class="team-role">Nail Specialist</span>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-img-wrap">
+        <img src="assets/team1.png" alt="Fitri Andini" style="filter: saturate(0.8) brightness(0.95);">
+      </div>
+      <h3 class="team-name">Fitri Andini</h3>
+      <span class="team-role">Makeup Artist</span>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery section" id="gallery">
+  <div class="gallery-inner">
+    <div class="section-header reveal">
+      <span class="eyebrow">Portfolio</span>
+      <h2 class="section-title">Karya <em>Visual</em> Kami.</h2>
+    </div>
+    
+    <div class="gallery-grid">
+      <div class="g-col">
+        <img src="assets/gallery1.png" alt="Hair styling result" class="gallery-img g-wide reveal">
+        <img src="assets/hero.png" alt="Interior Salon" class="gallery-img g-tall reveal" style="object-position: left;">
+      </div>
+      <div class="g-col">
+        <img src="assets/team1.png" alt="Professional Work" class="gallery-img g-tall reveal">
+        <img src="assets/gallery2.png" alt="Nail Art Result" class="gallery-img g-wide reveal">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFO (HOURS & LOCATION) -->
+<section class="section" id="info">
+  <div class="info-section">
+    <div class="info-box reveal">
+      <h2 class="info-title">Jam Operasional</h2>
+      <div class="hours-row">
+        <span class="hours-day">Senin – Jumat</span>
+        <span class="hours-time">09:00 – 20:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="hours-day">Sabtu</span>
+        <span class="hours-time">09:00 – 21:00</span>
+      </div>
+      <div class="hours-row">
+        <span class="hours-day">Minggu</span>
+        <span class="hours-time">10:00 – 18:00</span>
+      </div>
+      <p style="margin-top: 2rem; font-size: 0.85rem; color: var(--text-light); font-style: italic;">
+        *Untuk layanan panjang seperti smoothing atau coloring, kami sangat menyarankan reservasi H-1.
+      </p>
+    </div>
+    
+    <div class="info-box reveal">
+      <h2 class="info-title">Lokasi Kami</h2>
+      <div class="map-placeholder" onclick="window.open('https://maps.google.com','_blank')">
+        Lihat di Google Maps
+      </div>
+      <p style="font-size: 0.95rem; margin-bottom: 0.5rem; color: var(--text-main);">
+        <strong>Maison Belle Studio</strong><br>
+        Jl. Pemuda No. 45, Kabupaten Temanggung<br>
+        Jawa Tengah
+      </p>
+      <p style="font-size: 0.85rem; color: var(--text-light);">
+        Parkir luas tersedia tepat di depan salon.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="booking-cta">
+  <div class="reveal">
+    <span class="eyebrow" style="color: rgba(255,255,255,0.7);">Siap Berubah?</span>
+    <h2>Pesan jadwal Anda<br><em>hari ini.</em></h2>
+    <p>Hubungi admin kami via WhatsApp untuk berkonsultasi, bertanya tentang harga, atau langsung memesan slot waktu.</p>
+    <a href="https://wa.me/6281200000000?text=Halo%20Maison%20Belle%2C%20saya%20ingin%20reservasi" class="btn btn-white" target="_blank">Chat via WhatsApp</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Maison Belle.</div>
+  <div class="footer-links">
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+    <a href="https://wa.me/6281200000000" target="_blank">WhatsApp</a>
+  </div>
+  <div class="copyright">
+    &copy; 2026 Maison Belle. Dibuat oleh rasyid-hidayat.cloud.
+  </div>
+</footer>
+
+<script>
+// Mobile Menu Toggle
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileLinks = document.querySelectorAll('.nav-item-mobile');
+
+menuBtn.addEventListener('click', () => {
+  menuBtn.classList.toggle('active');
+  mobileMenu.classList.toggle('active');
+  document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+});
+
+mobileLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    menuBtn.classList.remove('active');
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+});
+
+// Navbar scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+// Scroll Reveal Animation
+const revealElements = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('active');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+revealElements.forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>

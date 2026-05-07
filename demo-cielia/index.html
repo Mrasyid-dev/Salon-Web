@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cielia Life Design - Demo Inspirasi (GSAP Refactored)</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f5f2; /* Soft beige */
+            --text-color: #2d2b2a; /* Charcoal */
+            --accent-color: #8c7b6d; /* Muted brown */
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 400;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 80px;
+            overflow: hidden;
+        }
+
+        .hero-text {
+            text-align: center;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            letter-spacing: 0.05em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-color);
+        }
+
+        .hero-img-wrapper {
+            position: absolute;
+            width: 40%;
+            height: 60%;
+            top: 20%;
+            left: 5%;
+            overflow: hidden;
+            border-radius: 250px 250px 0 0;
+            opacity: 0.8;
+            z-index: 1;
+        }
+
+        .hero-img-wrapper.right {
+            left: auto;
+            right: 5%;
+            top: 30%;
+            width: 30%;
+            height: 45%;
+            border-radius: 0 0 200px 200px;
+        }
+
+        .hero-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1); /* for parallax inside image */
+        }
+
+        /* Parallax text */
+        .parallax-text-container {
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 60px 0;
+            background: var(--text-color);
+            color: var(--bg-color);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .parallax-text {
+            font-family: var(--font-heading);
+            font-size: 4rem;
+            font-style: italic;
+            display: inline-block;
+        }
+
+        /* Concept Section */
+        .concept-section {
+            padding: 150px 0;
+            position: relative;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            align-items: center;
+        }
+
+        .concept-img-wrapper {
+            overflow: hidden;
+            border-radius: 200px 200px 0 0;
+        }
+
+        .concept-img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            transform: scale(1.2);
+        }
+
+        .concept-content {
+            padding-right: 10%;
+        }
+
+        .concept-title {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .concept-title::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 40px;
+            height: 1px;
+            background-color: var(--accent-color);
+        }
+
+        .concept-desc {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .btn-outline {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 40px;
+        }
+
+        /* Blinds Reveal Section */
+        .blinds-section {
+            position: relative;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 200px 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+
+        .blinds-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .blind {
+            flex: 1;
+            background-color: var(--bg-color);
+            transform-origin: center;
+        }
+
+        .blinds-content {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+        }
+        
+        .blinds-title {
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 150px 0;
+            background-color: #fff;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 150px;
+            gap: 80px;
+        }
+        .feature-item:last-child { margin-bottom: 0; }
+        .feature-item:nth-child(even) { flex-direction: row-reverse; }
+
+        .feature-img-wrapper {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+        .feature-img {
+            width: 100%; height: auto;
+            transform: scale(1.2);
+        }
+
+        .feature-content { flex: 1; }
+        .feature-subtitle {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .feature-title { font-size: 2.5rem; margin-bottom: 25px; }
+
+        /* GSAP Sticky Scroll Section */
+        .flow-pin-section {
+            height: 100vh;
+            position: relative;
+            background-color: var(--bg-color);
+            overflow: hidden;
+        }
+
+        .flow-slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            gap: 10%;
+        }
+        
+        .flow-slide:not(.slide-1) {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .flow-img-wrapper {
+            flex: 1.2;
+            height: 60vh;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .flow-img-wrapper img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        .flow-content {
+            flex: 1;
+            position: relative;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .flow-number {
+            width: 80px; height: 80px;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-family: var(--font-heading);
+            flex-shrink: 0;
+        }
+        .flow-title { font-size: 2.5rem; }
+        .flow-desc { color: #555; line-height: 1.8; }
+
+        /* Footer */
+        footer {
+            padding: 80px 0;
+            text-align: center;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        @media (max-width: 768px) {
+            .hero-img-wrapper { display: none; }
+            .concept-grid { grid-template-columns: 1fr; gap: 50px; }
+            .feature-item, .feature-item:nth-child(even) { flex-direction: column; gap: 40px; margin-bottom: 80px; }
+            .concept-content { padding-right: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-img-wrapper">
+            <img class="gsap-hero-img" src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=1000&auto=format&fit=crop" alt="Premium Salon Interior">
+        </div>
+        <div class="hero-img-wrapper right">
+            <img class="gsap-hero-img-2" src="https://www.hydroint.co.za/wp-content/uploads/2024/01/hair-stylist-tools-pink-background-scissors-brush-comb-curling-iron-home-hair-care-beauty-salon-tools-hairdresser-s-equipment-top-view-flat-lay-scaled.jpg" alt="Hair Styling Tools">
+        </div>
+        
+        <div class="hero-text gsap-fade-up">
+            <h1 class="hero-title">Elevate<br>Your Style</h1>
+            <p class="hero-subtitle">Mendefinisikan Ulang Standar Kecantikan</p>
+        </div>
+    </section>
+
+    <!-- Parallax Text -->
+    <div class="parallax-text-container">
+        <div class="parallax-text">
+            Elegance in Every Detail • Timeless Beauty • A Symphony of Style • Elegance in Every Detail • Timeless Beauty • A Symphony of Style •
+        </div>
+    </div>
+
+    <!-- Concept Section -->
+    <section class="concept-section container">
+        <div class="concept-grid">
+            <div class="concept-content gsap-fade-up">
+                <h2 class="concept-title">Seni Perawatan Eksklusif</h2>
+                <p class="concept-desc">Kami percaya bahwa setiap individu memiliki karakter unik. Dengan pendekatan personal, kami memadukan teknik tata rambut kelas dunia dengan kenyamanan absolut untuk memancarkan aura terbaik Anda.</p>
+                <a href="#" class="btn-outline">Jelajahi Layanan</a>
+            </div>
+            <div class="concept-img-wrapper gsap-fade-up">
+                <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop" alt="Premium Hair Care" class="concept-img gsap-parallax-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Blinds Reveal Section -->
+    <section class="blinds-section">
+        <div class="blinds-overlay">
+            <div class="blind"></div><div class="blind"></div><div class="blind"></div><div class="blind"></div><div class="blind"></div>
+        </div>
+        <div class="blinds-content">
+            <h2 class="blinds-title">Philosophy</h2>
+            <p style="letter-spacing: 0.2em; text-transform: uppercase; font-size: 0.9rem; margin-top: 20px;">Menyelaraskan Jiwa dan Estetika</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="feature-item">
+                <div class="feature-img-wrapper gsap-fade-up">
+                    <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?q=80&w=800&auto=format&fit=crop" alt="Expert Styling" class="feature-img gsap-parallax-img">
+                </div>
+                <div class="feature-content gsap-fade-up">
+                    <span class="feature-subtitle">Stylist Profesional</span>
+                    <h3 class="feature-title">Keahlian Kelas Dunia</h3>
+                    <p class="concept-desc">Tim kami terdiri dari penata rambut profesional yang terlatih secara internasional, siap menerjemahkan visi gaya Anda menjadi mahakarya visual yang menawan.</p>
+                </div>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-img-wrapper gsap-fade-up">
+                    <img src="https://images.unsplash.com/photo-1595476108010-b4d1f10d5e43?q=80&w=800&auto=format&fit=crop" alt="Premium Products" class="feature-img gsap-parallax-img">
+                </div>
+                <div class="feature-content gsap-fade-up">
+                    <span class="feature-subtitle">Bahan & Produk</span>
+                    <h3 class="feature-title">Kurasi Produk Organik</h3>
+                    <p class="concept-desc">Kami secara eksklusif menggunakan produk premium berbahan dasar organik yang tidak hanya menata, tetapi juga menutrisi dan meregenerasi kesehatan rambut Anda dari akar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GSAP Sticky Scroll Section -->
+    <section class="flow-pin-section">
+        <!-- Slide 1 -->
+        <div class="flow-slide slide-1">
+            <div class="flow-img-wrapper">
+                <img src="https://d2dfxqxblmblx4.cloudfront.net/wp-content/uploads/2022/08/22085146/GettyImages-1271712634_w800.jpg" alt="Konsultasi">
+            </div>
+            <div class="flow-content">
+                <div class="flow-step">
+                    <div class="flow-number">01</div>
+                    <h3 class="flow-title">Konsultasi Personal</h3>
+                </div>
+                <p class="flow-desc">Setiap sesi dimulai dengan konsultasi mendalam. Kami menganalisis struktur rambut, bentuk wajah, dan gaya hidup Anda untuk merancang perawatan yang paling ideal.</p>
+            </div>
+        </div>
+        <!-- Slide 2 -->
+        <div class="flow-slide slide-2">
+            <div class="flow-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=1000&auto=format&fit=crop" alt="Perawatan">
+            </div>
+            <div class="flow-content">
+                <div class="flow-step">
+                    <div class="flow-number">02</div>
+                    <h3 class="flow-title">Sesi Perawatan</h3>
+                </div>
+                <p class="flow-desc">Nikmati momen relaksasi saat para ahli kami mulai bekerja. Dengan teknik pijat eksklusif dan aplikasi produk premium, Anda akan merasakan kenyamanan maksimal.</p>
+            </div>
+        </div>
+        <!-- Slide 3 -->
+        <div class="flow-slide slide-3">
+            <div class="flow-img-wrapper">
+                <img src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?q=80&w=1000&auto=format&fit=crop" alt="Styling Akhir">
+            </div>
+            <div class="flow-content">
+                <div class="flow-step">
+                    <div class="flow-number">03</div>
+                    <h3 class="flow-title">Sentuhan Akhir</h3>
+                </div>
+                <p class="flow-desc">Kami melakukan *styling* akhir untuk memastikan hasil yang sempurna. Anda akan melangkah keluar dari salon kami dengan rasa percaya diri yang baru.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container gsap-fade-up">
+            <h2 style="margin-bottom: 20px; font-size: 2rem;">Lumière Salon</h2>
+            <p style="color: var(--accent-color); letter-spacing: 0.1em; text-transform: uppercase; font-size: 0.8rem;">Premium Salon Experience Demo</p>
+        </div>
+    </footer>
+
+
+    <!-- GSAP Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 1. Hero Parallax
+        gsap.to(".hero-img-wrapper", {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // 2. Parallax Text (Marquee)
+        gsap.to(".parallax-text", {
+            x: () => -(document.querySelector('.parallax-text').scrollWidth - window.innerWidth),
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".parallax-text-container",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1
+            }
+        });
+
+        // 3. Image Internal Parallax (Zoom/pan inside the wrapper)
+        gsap.utils.toArray('.gsap-parallax-img').forEach(img => {
+            gsap.to(img, {
+                yPercent: 15,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: img.parentElement,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        });
+
+        // 4. Staggered Fade-ups
+        gsap.utils.toArray('.gsap-fade-up').forEach(element => {
+            gsap.from(element, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play reverse play reverse"
+                }
+            });
+        });
+
+        // 5. Blinds Reveal
+        const blindsTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".blinds-section",
+                start: "top 60%",
+                toggleActions: "play reverse play reverse"
+            }
+        });
+        
+        blindsTl.to(".blind", {
+            scaleY: 0,
+            duration: 1.2,
+            ease: "expo.inOut",
+            stagger: 0.08
+        })
+        .from(".blinds-content", {
+            opacity: 0,
+            y: 40,
+            duration: 1,
+            ease: "power3.out"
+        }, "-=0.6");
+
+        // 6. Sticky Flow Section (Horizontal/Vertical Scroll illusion)
+        const flowTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: ".flow-pin-section",
+                start: "top top",
+                end: "+=3000", // scroll 3000px down to see all slides
+                pin: true,
+                scrub: 1 // smooth 1-sec scrub lag
+            }
+        });
+
+        // Slide 1 -> 2
+        flowTl.to(".slide-1 .flow-img-wrapper", { y: -50, opacity: 0, duration: 1 })
+              .to(".slide-1 .flow-content", { y: -30, opacity: 0, duration: 1 }, "<")
+              .to(".slide-2", { autoAlpha: 1, duration: 0.1 }, "<") // show slide 2
+              .from(".slide-2 .flow-img-wrapper", { y: 50, opacity: 0, duration: 1 }, "<")
+              .from(".slide-2 .flow-content", { y: 30, opacity: 0, duration: 1 }, "<")
+              
+              // Hold slide 2
+              .to({}, { duration: 0.5 })
+
+              // Slide 2 -> 3
+              .to(".slide-2 .flow-img-wrapper", { y: -50, opacity: 0, duration: 1 })
+              .to(".slide-2 .flow-content", { y: -30, opacity: 0, duration: 1 }, "<")
+              .to(".slide-3", { autoAlpha: 1, duration: 0.1 }, "<") // show slide 3
+              .from(".slide-3 .flow-img-wrapper", { y: 50, opacity: 0, duration: 1 }, "<")
+              .from(".slide-3 .flow-content", { y: 30, opacity: 0, duration: 1 }, "<")
+              
+              // Hold slide 3
+              .to({}, { duration: 0.5 });
+              
+    </script>
+</body>
+</html>

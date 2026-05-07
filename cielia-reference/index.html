@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cielia | Premium Salon & Hairstyling</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts: Oswald for bold condensed, Cormorant Garamond for elegant serif, Herr Von Muellerhoff for script, Inter for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&family=Inter:wght@300;400;500&family=Oswald:wght@500;700&family=Cormorant+Garamond:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-blue: #1d4ed8;
+            --text-dark: #111111;
+            --text-light: #ffffff;
+            --bg-light: #fdfdfd;
+            --bg-dark: #0a0a0a;
+            --grey-light: #f0f0f0;
+            --watermark: rgba(0, 0, 0, 0.04);
+            
+            --font-heading: 'Oswald', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-script: 'Herr Von Muellerhoff', cursive;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Utility Classes */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            z-index: 100;
+        }
+
+        .logo-container {
+            padding: 2rem 5%;
+            color: var(--text-light);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-style: italic;
+        }
+
+        .nav-right {
+            background-color: #fff;
+            padding: 2rem 4rem;
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .menu-btn:hover {
+            opacity: 0.7;
+        }
+
+        .menu-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu-lines span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: var(--text-dark);
+        }
+
+        .prices-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s;
+        }
+        
+        .prices-link:hover {
+            color: var(--primary-blue);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .hero-half {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            left: 0;
+        }
+
+        .hero-right {
+            right: 0;
+        }
+
+        .hero-img {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 100vw;
+            object-fit: cover;
+            object-position: center 20%;
+        }
+
+        .hero-left .hero-img {
+            left: 0;
+            filter: grayscale(100%);
+        }
+
+        .hero-right .hero-img {
+            right: 0;
+        }
+
+        .hero-right::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-blue);
+            mix-blend-mode: color;
+            opacity: 1;
+        }
+        
+        .hero-right::before {
+             content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(29, 78, 216, 0.4); /* Extra blue tint to match ref */
+            mix-blend-mode: overlay;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .hero-text-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 5rem;
+        }
+
+        .hero-title-left {
+            flex: 1;
+            padding-right: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            text-align: right;
+            color: var(--text-light);
+        }
+
+        .hero-title-left h1 {
+            font-family: var(--font-heading);
+            font-size: 8rem;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .blue-line {
+            width: 140px;
+            height: 8px;
+            background-color: var(--primary-blue);
+            margin-right: 5px;
+        }
+
+        .hero-title-right {
+            flex: 1;
+            padding-left: 2rem;
+            color: var(--text-light);
+            z-index: 2;
+        }
+
+        .hero-title-right h2 {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            font-weight: 500;
+            line-height: 1.2;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+        }
+
+        .hero-title-right .script {
+            font-family: var(--font-script);
+            font-size: 6rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.9);
+            display: block;
+            margin-top: -2.5rem;
+            margin-left: 4rem;
+            text-transform: none;
+            letter-spacing: 0;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero-bottom {
+            position: absolute;
+            bottom: 3rem;
+            left: 0;
+            width: 100%;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            z-index: 10;
+            color: var(--text-light);
+        }
+
+        .social-dots {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .timer-icon {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            font-style: italic;
+        }
+        
+        .social-dots a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 6px;
+            height: 6px;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            text-indent: -9999px;
+        }
+        
+        .social-dots a.active {
+            background-color: #fff;
+            transform: scale(1.5);
+        }
+
+        .social-dots a:hover {
+            background: #fff;
+            transform: scale(1.5);
+        }
+
+        .partner-logos {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            opacity: 0.9;
+        }
+        
+        .partner-logos span {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+
+        /* --- Services Section --- */
+        .services {
+            padding: 15rem 0 10rem;
+            position: relative;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .watermark {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: var(--font-heading);
+            font-size: 22rem;
+            color: var(--watermark);
+            white-space: nowrap;
+            z-index: 0;
+            pointer-events: none;
+            user-select: none;
+            letter-spacing: 10px;
+        }
+
+        .services-grid {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5%;
+        }
+
+        .service-item {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .service-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1;
+            color: var(--text-dark);
+        }
+
+        .service-script {
+            font-family: var(--font-script);
+            font-size: 3.5rem;
+            color: var(--primary-blue);
+            margin-top: -20px;
+            margin-bottom: 25px;
+            font-weight: 300;
+        }
+
+        .service-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--primary-blue);
+            border-radius: 50%;
+        }
+
+        /* --- Look Section --- */
+        .look-section {
+            padding: 5rem 0 12rem;
+            background: #fff;
+        }
+
+        .look-container {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .look-text-col {
+            flex: 0 0 30%;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .look-text-col::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 15px;
+            width: 10px;
+            height: 100px;
+            background-color: var(--primary-blue);
+        }
+
+        .look-text-col h2 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            letter-spacing: 1px;
+        }
+
+        .get-look-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary-blue);
+            font-weight: 500;
+            transition: gap 0.3s;
+        }
+
+        .get-look-link::before {
+            content: '';
+            width: 50px;
+            height: 2px;
+            background-color: currentColor;
+            transition: width 0.3s;
+        }
+        
+        .get-look-link:hover {
+            gap: 20px;
+        }
+        .get-look-link:hover::before {
+            width: 60px;
+        }
+
+        .look-gallery {
+            flex: 1;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-end;
+        }
+
+        .look-img-wrapper {
+            flex: 1;
+            overflow: hidden;
+            background-color: var(--grey-light);
+        }
+
+        .look-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+
+        .look-img-wrapper:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+        }
+
+        .look-img-1 { height: 450px; }
+        .look-img-2 { height: 550px; margin-bottom: -50px; }
+        .look-img-3 { height: 450px; }
+
+
+        /* --- Instagram Section --- */
+        .instagram-section {
+            padding: 8rem 0 12rem;
+            position: relative;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .ig-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ig-header h2 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .ig-link {
+            align-self: flex-end;
+            color: var(--primary-blue);
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .ig-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .ig-card {
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ig-img-wrap {
+            width: 100%;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .ig-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .ig-card:hover .ig-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .ig-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            padding: 0 5px;
+        }
+
+        .ig-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ig-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            object-fit: cover;
+            filter: grayscale(100%);
+        }
+
+        .ig-username {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .ig-likes {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .ig-caption {
+            font-size: 0.85rem;
+            color: #444;
+            line-height: 1.6;
+            padding: 0 5px;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ig-caption a {
+            color: var(--primary-blue);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .newsletter {
+            background-color: var(--primary-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 5%;
+        }
+
+        .newsletter-inner {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            gap: 3rem;
+        }
+
+        .newsletter-text {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            flex: 1;
+            line-height: 1.5;
+        }
+        
+        .newsletter-text strong {
+            display: block;
+            font-size: 1.5rem;
+            font-family: var(--font-heading);
+            margin-top: 5px;
+        }
+
+        .newsletter-btn {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            padding: 1rem 3rem;
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .newsletter-btn:hover {
+            background: #fff;
+            color: var(--primary-blue);
+        }
+
+        .newsletter-input-group {
+            flex: 2;
+            position: relative;
+        }
+
+        .newsletter-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            padding: 0.5rem 0;
+            text-transform: uppercase;
+            transition: border-color 0.3s;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-bottom-color: #fff;
+        }
+
+        .footer-map {
+            position: relative;
+            height: 600px;
+            width: 100%;
+            background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2074&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .footer-map::before {
+            content: '';
+            position: absolute;
+            top:0; left:0; right:0; bottom:0;
+            background: rgba(5, 5, 5, 0.9);
+        }
+
+        .map-marker {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .map-address {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+            color: #ddd;
+        }
+
+        .map-dot {
+            width: 18px;
+            height: 18px;
+            background-color: var(--primary-blue);
+            border-radius: 50%;
+            margin: 0 auto;
+            box-shadow: 0 0 0 6px rgba(29, 78, 216, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(29, 78, 216, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
+        }
+
+        .footer-bottom {
+            position: absolute;
+            bottom: 3rem;
+            left: 0;
+            width: 100%;
+            padding: 0 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .footer-social a {
+            transition: color 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-title-left h1 { font-size: 6rem; }
+            .hero-title-right h2 { font-size: 1.8rem; }
+            .hero-title-right .script { font-size: 5rem; }
+            .services-grid { padding: 0 2%; }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-title-left h1 { font-size: 5rem; }
+            .hero-title-right .script { font-size: 4rem; }
+            .services-grid { flex-wrap: wrap; justify-content: center; gap: 4rem; }
+            .service-item { width: 40%; }
+            .look-container { flex-direction: column; gap: 3rem; }
+            .look-text-col { padding-left: 0; text-align: center; width: 100%; }
+            .look-text-col::before { display: none; }
+            .get-look-link { justify-content: center; }
+            .ig-grid { grid-template-columns: repeat(2, 1fr); gap: 3rem; }
+            .newsletter-inner { flex-direction: column; text-align: center; gap: 2rem;}
+            .newsletter-input-group { width: 100%; }
+            .footer-bottom { flex-direction: column; gap: 1rem; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-right { display: none; } /* Hide menu on mobile for demo simplicity */
+            .hero-text-container { flex-direction: column; text-align: center; }
+            .hero-title-left { padding: 0; align-items: center; text-align: center; margin-bottom: 3rem;}
+            .hero-title-right { padding: 0; text-align: center;}
+            .hero-title-right .script { margin-left: 0; margin-top: 0; }
+            .service-item { width: 100%; }
+            .look-gallery { flex-direction: column; width: 100%; align-items: stretch; gap: 1rem; }
+            .look-img-wrapper { height: 400px; margin-bottom: 0 !important; }
+            .ig-grid { grid-template-columns: 1fr; }
+            .watermark { font-size: 12rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="logo-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">C</div>
+                Cielia
+            </a>
+        </div>
+        <div class="nav-right">
+            <div class="menu-btn">
+                <div class="menu-lines">
+                    <span></span>
+                    <span></span>
+                </div>
+                Menu
+            </div>
+            <span>|</span>
+            <a href="#" class="prices-link">Prices <span>📱</span></a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <!-- Background Images (Split) -->
+        <div class="hero-half hero-left">
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80" alt="Salon Model" class="hero-img">
+        </div>
+        <div class="hero-half hero-right">
+            <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=1974&q=80" alt="Salon Model" class="hero-img">
+        </div>
+
+        <!-- Hero Content -->
+        <div class="container hero-content">
+            <div class="hero-text-container">
+                <div class="hero-title-left">
+                    <h1 class="gsap-hero-left">TRENDS</h1>
+                    <div class="blue-line gsap-hero-left"></div>
+                </div>
+                <div class="hero-title-right">
+                    <h2 class="gsap-hero-right">KAMI TIDAK MENGIKUTI MEREKA.<br>KAMI</h2>
+                    <span class="script gsap-hero-right">Menciptakannya</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Bottom -->
+        <div class="hero-bottom">
+            <div class="social-dots">
+                <span class="timer-icon">C</span>
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+            </div>
+            <div class="partner-logos">
+                <span>BC Bonacure</span>
+                <span>Schwarzkopf</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="watermark gsap-watermark">SERVICES</div>
+        <div class="container services-grid">
+            <div class="service-item gsap-fade-up">
+                <h3 class="service-title">HAIR</h3>
+                <span class="service-script">stylist</span>
+                <div class="service-dot"></div>
+            </div>
+            <div class="service-item gsap-fade-up" style="transition-delay: 0.1s">
+                <h3 class="service-title">PHOTO</h3>
+                <span class="service-script">shooting</span>
+                <div class="service-dot"></div>
+            </div>
+            <div class="service-item gsap-fade-up" style="transition-delay: 0.2s">
+                <h3 class="service-title">WEDDING</h3>
+                <span class="service-script">look</span>
+                <div class="service-dot"></div>
+            </div>
+            <div class="service-item gsap-fade-up" style="transition-delay: 0.3s">
+                <h3 class="service-title">MAKE UP</h3>
+                <span class="service-script">beauty</span>
+                <div class="service-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Look Section -->
+    <section class="look-section">
+        <div class="container look-container">
+            <div class="look-text-col gsap-fade-right">
+                <h2>REINVENT YOUR<br>HAIRSTYLE</h2>
+                <a href="#" class="get-look-link">GET THE LOOK</a>
+            </div>
+            <div class="look-gallery">
+                <div class="look-img-wrapper look-img-1 gsap-fade-up">
+                    <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hairstyle 1">
+                </div>
+                <div class="look-img-wrapper look-img-2 gsap-fade-up" style="transition-delay: 0.1s;">
+                    <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hairstyle 2">
+                </div>
+                <div class="look-img-wrapper look-img-3 gsap-fade-up" style="transition-delay: 0.2s;">
+                    <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hairstyle 3">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Section -->
+    <section class="instagram-section">
+        <div class="watermark gsap-watermark-2">INSTAGRAM</div>
+        <div class="container">
+            <div class="ig-header">
+                <h2>INSTAGRAM</h2>
+                <a href="#" class="ig-link">📸 Instagram feed</a>
+            </div>
+            <div class="ig-grid">
+                <!-- IG Card 1 -->
+                <div class="ig-card gsap-fade-up">
+                    <div class="ig-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Instagram Post">
+                    </div>
+                    <div class="ig-meta">
+                        <div class="ig-user">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="ig-avatar" alt="Avatar">
+                            <span class="ig-username">CIELIA SALON</span>
+                        </div>
+                        <span class="ig-likes">94 likes</span>
+                    </div>
+                    <p class="ig-caption">Siap untuk akhir pekan... 🌟 <a href="#">#hairgoals</a> <a href="#">#cieliasalon</a> <a href="#">#style</a> Refreshing looks untuk musim baru. Kunjungi studio kami!</p>
+                </div>
+                <!-- IG Card 2 -->
+                <div class="ig-card gsap-fade-up" style="transition-delay: 0.1s;">
+                    <div class="ig-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Instagram Post">
+                    </div>
+                    <div class="ig-meta">
+                        <div class="ig-user">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="ig-avatar" alt="Avatar">
+                            <span class="ig-username">CIELIA SALON</span>
+                        </div>
+                        <span class="ig-likes">114 likes</span>
+                    </div>
+                    <p class="ig-caption">Momen relaksasi. <a href="#">#spa</a> <a href="#">#hairtreatment</a> <a href="#">#cielia</a> Rasakan sentuhan profesional dari stylist terbaik kami.</p>
+                </div>
+                <!-- IG Card 3 -->
+                <div class="ig-card gsap-fade-up" style="transition-delay: 0.2s;">
+                    <div class="ig-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Instagram Post">
+                    </div>
+                    <div class="ig-meta">
+                        <div class="ig-user">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="ig-avatar" alt="Avatar">
+                            <span class="ig-username">CIELIA SALON</span>
+                        </div>
+                        <span class="ig-likes">86 likes</span>
+                    </div>
+                    <p class="ig-caption">Tim yang hebat! Kami suka mengubah penampilan dan meningkatkan kepercayaan diri. <a href="#">#teamwork</a> <a href="#">#haircut</a></p>
+                </div>
+                <!-- IG Card 4 -->
+                <div class="ig-card gsap-fade-up" style="transition-delay: 0.3s;">
+                    <div class="ig-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Instagram Post">
+                    </div>
+                    <div class="ig-meta">
+                        <div class="ig-user">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" class="ig-avatar" alt="Avatar">
+                            <span class="ig-username">CIELIA SALON</span>
+                        </div>
+                        <span class="ig-likes">132 likes</span>
+                    </div>
+                    <p class="ig-caption">Elegan adalah sebuah sikap. <a href="#">#weddinglook</a> <a href="#">#makeup</a> <a href="#">#beauty</a> Biarkan kami membuat hari spesial Anda menjadi sempurna.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="newsletter">
+            <div class="newsletter-inner">
+                <div class="newsletter-text">
+                    Berlangganan Newsletter Cielia Coiffure
+                    <strong>GET NOTIFIED</strong>
+                </div>
+                <div class="newsletter-input-group">
+                    <input type="email" class="newsletter-input" placeholder="TYPE YOUR MAIL">
+                </div>
+                <button class="newsletter-btn">SUBSCRIBE</button>
+            </div>
+        </div>
+        <div class="footer-map">
+            <div class="map-marker">
+                <p class="map-address">Riva Paradiso 2, 6900 Lugano</p>
+                <div class="map-dot"></div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-social">
+                    <a href="#">IG</a>
+                    <a href="#">FB</a>
+                    <a href="#">YT</a>
+                </div>
+                <div class="copyright">
+                    2026 &copy; Cielia Salon Coiffure. All right reserved.
+                </div>
+                <div class="credits">
+                    Credits
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animations
+        gsap.fromTo(".gsap-hero-left", 
+            { x: -50, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: "power3.out", delay: 0.2 }
+        );
+
+        gsap.fromTo(".gsap-hero-right", 
+            { x: 50, opacity: 0 },
+            { x: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: "power3.out", delay: 0.4 }
+        );
+
+        // Fade Up Elements (Services & Instagram)
+        const fadeUpElements = gsap.utils.toArray('.gsap-fade-up');
+        fadeUpElements.forEach((elem) => {
+            gsap.fromTo(elem, 
+                { y: 60, opacity: 0 },
+                {
+                    y: 0, 
+                    opacity: 1, 
+                    duration: 0.8, 
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 85%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Fade Right Elements (Look Section Text)
+        gsap.fromTo(".gsap-fade-right", 
+            { x: -60, opacity: 0 },
+            {
+                x: 0, 
+                opacity: 1, 
+                duration: 1, 
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: ".look-section",
+                    start: "top 75%",
+                }
+            }
+        );
+
+        // Parallax Watermarks
+        gsap.to(".gsap-watermark", {
+            y: -150,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".services",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1
+            }
+        });
+
+        gsap.to(".gsap-watermark-2", {
+            y: -150,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".instagram-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1
+            }
+        });
+    </script>
+</body>
+</html>
